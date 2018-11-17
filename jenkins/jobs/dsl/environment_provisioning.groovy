@@ -37,6 +37,7 @@ The reference application deploy job is expecting the default environment to be 
                 |    export ENVIRONMENT_NAME=$1
                 |    export SERVICE_NAME="$(echo ${PROJECT_NAME} | tr '/' '_')_${ENVIRONMENT_NAME}"
                 |    docker-compose -p ${SERVICE_NAME} up -d
+                |    echo "To my taste, this should be the conf: ${PROJECT_NAME}.conf"
                 |    ## Add nginx configuration
                 |    sed -i "s/###TOMCAT_SERVICE_NAME###/${SERVICE_NAME}/" $2
                 |    docker cp $2 proxy:/etc/nginx/sites-enabled/${SERVICE_NAME}.conf
