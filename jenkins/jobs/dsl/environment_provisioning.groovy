@@ -139,6 +139,8 @@ destroyEnvironmentJob.with{
          | 	docker exec proxy rm -f /etc/nginx/sites-enabled/${SERVICE_NAME}.conf
          | }
          | 
+         | env
+         | 
          | if [ "$ENVIRONMENT_TYPE" == "DEV" ]; then
          | 	#echo deleteDockerContainer "CI" roofservicenow.conf
          | 	deleteDockerContainer "CI" roofservicenow.conf
