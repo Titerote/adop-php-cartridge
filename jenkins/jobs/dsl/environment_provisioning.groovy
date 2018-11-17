@@ -42,6 +42,7 @@ The reference application deploy job is expecting the default environment to be 
                 |    docker cp $2 proxy:/etc/nginx/sites-enabled/${SERVICE_NAME}.conf
                 |}
                 |
+                |env
                 |if [ "$ENVIRONMENT_TYPE" == "DEV" ]; then
                 | 	ls -al .
                 | 	createDockerContainer "CI" tomcat.conf
