@@ -13,7 +13,7 @@ def listEnvironmentJob = freeStyleJob(projectFolderName + "/List_Environment")
 
 // Create Environment
 createEnvironmentJob.with{
-    description('''This job creates the environment to deploy the java application.
+    description('''This job creates the environment to deploy the php application.
 Note : If you running this job for the first time then please keep the environment name to default value.
 The reference application deploy job is expecting the default environment to be available.''')
     parameters {
@@ -33,7 +33,7 @@ The reference application deploy job is expecting the default environment to be 
     steps {
         shell('''set +x
                 |function createDockerContainer() {
-                |	echo $1, $2
+                |	 echo $1, $2
                 |    export ENVIRONMENT_NAME=$1
                 |    export SERVICE_NAME="$(echo ${PROJECT_NAME} | tr '/' '_')_${ENVIRONMENT_NAME}"
                 |    docker-compose -p ${SERVICE_NAME} up -d
@@ -43,6 +43,7 @@ The reference application deploy job is expecting the default environment to be 
                 |}
                 |
                 |if [ "$ENVIRONMENT_TYPE" == "DEV" ]; then
+                | 	ls -al .
                 | 	createDockerContainer "CI" tomcat.conf
                 |elif [ "$ENVIRONMENT_TYPE" == "PROD" ]; then
                 |	##Creating 2 environment PRODA and PRODB, with a upstream ngix configuration in prod-tomcat.conf
