@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -e
+DEBUG=0
+
+if [ $DEBUG -gt 0 ]; then INI_FILE=docker-environment-parameters.conf #Debug File
+else INI_FILE=/usr/local/etc/php/conf.d/docker-environment-parameters.conf; #Container File
+fi;
+
+if [ $DEBUG -gt 0 ]; then echo "TITEEEEEEEEEEEEE INI: $INI_FILE"; fi;
+
+if [ ! -f $INI_FILE ]; then touch $INI_FILE; fi;
+
+configs=${!PHPINI_*}
+for var in $configs; do
+    config_name=${var#*_}
+    if [ $DEBUG -gt 0 ]; then echo "cfg $config_name"; fi;
+
+    if [ $(grep -ce ^${config_name} $INI_FILE) -gt 0 ]; then
+       if [ $DEBUG -gt 0 ]; then echo "Parameter ${config_name} already configured, let's check the value "; fi;
+       if [ $(grep -ce "^${config_name}\=${!var}" $INI_FILE) -eq 0 ]; then
+          if [ $DEBUG -gt 0 ]; then echo "${config_name} has a different parameter "; fi;
+          sed -i "s/${config_name}=.*$/${config_name}=${!var}/g" $INI_FILE;
+       fi;
+    else
+       echo "${config_name}=${!var}" >> $INI_FILE;
+    fi;
+done
+

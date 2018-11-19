@@ -1,4 +1,7 @@
 .idea
+.*.swp
+.*.swo
+src/scripts/*.env
 
 ### Gradle ###
 .gradle
