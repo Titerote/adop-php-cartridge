@@ -10,8 +10,8 @@ def referenceAppGitUrl = "ssh://jenkins@gerrit:29418/${PROJECT_NAME}/" + referen
 def regressionTestGitUrl = "ssh://jenkins@gerrit:29418/${PROJECT_NAME}/" + regressionTestGitRepo
 
 // Jobs
-def buildDevAppJob = freeStyleJob(projectFolderName + "/Reference_Application_CIBuild")
-def buildAppJob = freeStyleJob(projectFolderName + "/Reference_Application_Build")
+def buildDevAppJob = freeStyleJob(projectFolderName + "/Reference_Application_CIBuild_sucker")
+def buildAppJob = freeStyleJob(projectFolderName + "/Reference_Application_Build2")
 def unitTestJob = freeStyleJob(projectFolderName + "/Reference_Application_Unit_Tests")
 def codeAnalysisJob = freeStyleJob(projectFolderName + "/Reference_Application_Code_Analysis")
 def deployJob = freeStyleJob(projectFolderName + "/Reference_Application_Deploy")
