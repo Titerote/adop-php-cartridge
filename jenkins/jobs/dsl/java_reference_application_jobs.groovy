@@ -71,6 +71,7 @@ buildCIAppJob.with {
     steps {
         ant {
             target('full-build')
+            antInstallation('ADOP Ant')
         }
     }
     publishers {
