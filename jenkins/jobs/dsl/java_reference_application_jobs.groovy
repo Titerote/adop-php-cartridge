@@ -4,14 +4,15 @@ def projectFolderName = "${PROJECT_NAME}"
 
 // Variables
 def projectNameKey = projectFolderName.toLowerCase().replace("/", "-")
-def referenceAppgitRepo = "adop-docker-compose"
+def referenceAppgitRepo = "php-web"
 def regressionTestGitRepo = "adop-cartridge-java-regression-tests"
 def referenceAppGitUrl = "ssh://jenkins@gerrit:29418/${PROJECT_NAME}/" + referenceAppgitRepo
 def regressionTestGitUrl = "ssh://jenkins@gerrit:29418/${PROJECT_NAME}/" + regressionTestGitRepo
 
 // Jobs
-def buildDevAppJob = freeStyleJob(projectFolderName + "/Reference_Application_CIBuild_sucker")
-def buildAppJob = freeStyleJob(projectFolderName + "/Reference_Application_Build2")
+def buildCIAppJob = freeStyleJob(projectFolderName + "/Reference_Application_Build_CI")
+
+def buildAppJob = freeStyleJob(projectFolderName + "/Reference_Application_Build")
 def unitTestJob = freeStyleJob(projectFolderName + "/Reference_Application_Unit_Tests")
 def codeAnalysisJob = freeStyleJob(projectFolderName + "/Reference_Application_Code_Analysis")
 def deployJob = freeStyleJob(projectFolderName + "/Reference_Application_Deploy")
@@ -32,7 +33,7 @@ pipelineView.with {
     refreshFrequency(5)
 }
 
-buildDevAppJob.with {
+buildCIAppJob.with {
     description("This job builds Java Spring reference application only for the CI environment")
     wrappers {
         preBuildCleanup()
