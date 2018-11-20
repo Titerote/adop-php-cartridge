@@ -69,13 +69,8 @@ buildCIAppJob.with {
         }
     }
     steps {
-        withAnt(installation: 'ADOP Ant') {
-            //dir("scoring") {
-            if (isUnix()) {
-                sh "ant full-build"
-            } else {
-                bat "ant mytarget"
-            }
+        ant {
+            target('full-build')
         }
     }
     publishers {
