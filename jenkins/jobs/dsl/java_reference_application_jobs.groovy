@@ -69,7 +69,7 @@ buildCIAppJob.with {
         }
     }
     steps {
-        withAnt(installation: 'php-web') {
+        withAnt(installation: 'ADOP Ant') {
             //dir("scoring") {
             if (isUnix()) {
                 sh "ant full-build"
