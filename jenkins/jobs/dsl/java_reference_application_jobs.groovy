@@ -46,10 +46,10 @@ buildCIAppJob.with {
             remote {
                 url(referenceAppGitUrl)
                 credentials("adop-jenkins-master")
-                refspec('$GERRIT_PATCHSET_REVISION')
+                // refspec('$GERRIT_PATCHSET_REVISION')
             }
-            // branch("*/master")
-            branch('$GERRIT_REFSPEC')
+            branch("*/master")
+            // branch('$GERRIT_REFSPEC')
         }
     }
     environmentVariables {
