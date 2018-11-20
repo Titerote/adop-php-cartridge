@@ -69,9 +69,13 @@ buildCIAppJob.with {
         }
     }
     steps {
-        maven {
-            goals('clean install -DskipTests')
-            mavenInstallation("ADOP Maven")
+        withAnt(installation: 'php-web') {
+            //dir("scoring") {
+            if (isUnix()) {
+                sh "ant full-build"
+            } else {
+                bat "ant mytarget"
+            }
         }
     }
     publishers {
