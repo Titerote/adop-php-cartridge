@@ -56,7 +56,7 @@ buildCIAppJob.with {
         env('WORKSPACE_NAME', workspaceFolderName)
         env('PROJECT_NAME', projectFolderName)
     }
-    label("java8")
+    label("php")
     triggers {
         gerrit {
             events {
