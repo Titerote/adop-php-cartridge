@@ -46,17 +46,17 @@ buildCIAppJob.with {
             remote {
                 url(referenceAppGitUrl)
                 credentials("adop-jenkins-master")
-                refspec("\$GERRIT_PATCHSET_REVISION")
+                // refspec('$GERRIT_PATCHSET_REVISION')
             }
-            // branch("*/master")
-            branch("\$GERRIT_REFSPEC")
+            branch("*/master")
+            // branch('$GERRIT_REFSPEC')
         }
     }
     environmentVariables {
         env('WORKSPACE_NAME', workspaceFolderName)
         env('PROJECT_NAME', projectFolderName)
     }
-    label("java8")
+    label("php")
     triggers {
         gerrit {
             events {
@@ -69,9 +69,9 @@ buildCIAppJob.with {
         }
     }
     steps {
-        maven {
-            goals('clean install -DskipTests')
-            mavenInstallation("ADOP Maven")
+        ant {
+            target('full-build')
+            antInstallation('ADOP Ant')
         }
     }
     publishers {
