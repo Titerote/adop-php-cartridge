@@ -10,8 +10,6 @@ def referenceAppGitUrl = "ssh://jenkins@gerrit:29418/${PROJECT_NAME}/" + referen
 def regressionTestGitUrl = "ssh://jenkins@gerrit:29418/${PROJECT_NAME}/" + regressionTestGitRepo
 
 // Jobs
-def buildCIAppJob = freeStyleJob(projectFolderName + "/Reference_Application_Build_CI")
-
 def buildAppJob = freeStyleJob(projectFolderName + "/Reference_Application_Build")
 def unitTestJob = freeStyleJob(projectFolderName + "/Reference_Application_Unit_Tests")
 def codeAnalysisJob = freeStyleJob(projectFolderName + "/Reference_Application_Code_Analysis")
@@ -33,7 +31,7 @@ pipelineView.with {
     refreshFrequency(5)
 }
 
-buildCIAppJob.with {
+buildAppJob.with {
     description("This job builds Java Spring reference application only for the CI environment")
     wrappers {
         preBuildCleanup()
@@ -70,61 +68,8 @@ buildCIAppJob.with {
     }
     steps {
         ant {
-            target('full-build')
+            target('package')
             antInstallation('ADOP Ant')
-        }
-    }
-    publishers {
-        archiveArtifacts("**/*")
-        downstreamParameterized {
-            trigger(projectFolderName + "/Reference_Application_Unit_Tests") {
-                condition("UNSTABLE_OR_BETTER")
-                parameters {
-                    predefinedProp("B", '${BUILD_NUMBER}')
-                    predefinedProp("PARENT_BUILD", '${JOB_NAME}')
-                }
-            }
-        }
-    }
-}
-
-buildAppJob.with {
-    description("This job builds Java Spring reference application")
-    wrappers {
-        preBuildCleanup()
-        injectPasswords()
-        maskPasswords()
-        sshAgent("adop-jenkins-master")
-    }
-    scm {
-        git {
-            remote {
-                url(referenceAppGitUrl)
-                credentials("adop-jenkins-master")
-            }
-            branch("*/master")
-        }
-    }
-    environmentVariables {
-        env('WORKSPACE_NAME', workspaceFolderName)
-        env('PROJECT_NAME', projectFolderName)
-    }
-    label("java8")
-    triggers {
-        gerrit {
-            events {
-                refUpdated()
-            }
-            project(projectFolderName + '/' + referenceAppgitRepo, 'plain:master')
-            configure { node ->
-                node / serverName("ADOP Gerrit")
-            }
-        }
-    }
-    steps {
-        maven {
-            goals('clean install -DskipTests')
-            mavenInstallation("ADOP Maven")
         }
     }
     publishers {
@@ -157,16 +102,11 @@ unitTestJob.with {
         env('WORKSPACE_NAME', workspaceFolderName)
         env('PROJECT_NAME', projectFolderName)
     }
-    label("java8")
+    label("php")
     steps {
-        copyArtifacts("Reference_Application_Build") {
-            buildSelector {
-                buildNumber('${B}')
-            }
-        }
-        maven {
-            goals('clean test')
-            mavenInstallation("ADOP Maven")
+        ant {
+            target('phpunit')
+            antInstallation('ADOP Ant')
         }
     }
     publishers {
@@ -202,12 +142,11 @@ codeAnalysisJob.with {
         maskPasswords()
         sshAgent("adop-jenkins-master")
     }
-    label("java8")
+    label("php")
     steps {
-        copyArtifacts('Reference_Application_Unit_Tests') {
-            buildSelector {
-                buildNumber('${UTB}')
-            }
+        ant {
+            target('static-analysis')
+            antInstallation('ADOP Ant')
         }
     }
     configure { myProject ->
@@ -265,10 +204,10 @@ deployJob.with {
         }
         shell('''set +x
             |export SERVICE_NAME="$(echo ${PROJECT_NAME} | tr '/' '_')_${ENVIRONMENT_NAME}"
-            |docker cp ${WORKSPACE}/target/petclinic.war  ${SERVICE_NAME}:/usr/local/tomcat/webapps/
-            |docker restart ${SERVICE_NAME}
+            |docker cp ${WORKSPACE}/build/roofservicenow-web.tgz  ${SERVICE_NAME}:/data/php-deploy/
+            |docker exec ${SERVICE_NAME} /usr/local/bin/docker-php-deploy
             |COUNT=1
-            |while ! curl -q http://${SERVICE_NAME}:8080/petclinic -o /dev/null
+            |while ! curl -q http://${SERVICE_NAME}:8080/roofservicenow -o /dev/null
             |do
             |  if [ ${COUNT} -gt 10 ]; then
             |    echo "Docker build failed even after ${COUNT}. Please investigate."
