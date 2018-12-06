@@ -104,6 +104,11 @@ unitTestJob.with {
     }
     label("php")
     steps {
+        copyArtifacts("Reference_Application_Build") {
+            buildSelector {
+                buildNumber('${B}')
+            }
+        }
         ant {
             target('phpunit')
             antInstallation('ADOP Ant')
