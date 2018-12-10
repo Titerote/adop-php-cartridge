@@ -149,6 +149,11 @@ codeAnalysisJob.with {
     }
     label("php")
     steps {
+        copyArtifacts("Reference_Application_Build") {
+            buildSelector {
+                buildNumber('${B}')
+            }
+        }
         ant {
             target('static-analysis')
             antInstallation('ADOP Ant')
@@ -204,7 +209,7 @@ deployJob.with {
         copyArtifacts("Reference_Application_Build") {
             buildSelector {
                 buildNumber('${B}')
-                includePatterns('target/petclinic.war')
+                includePatterns('build/roofservicenow-web.tgz')
             }
         }
         shell('''set +x
