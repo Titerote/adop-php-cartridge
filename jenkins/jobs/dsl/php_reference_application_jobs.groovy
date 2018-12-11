@@ -116,7 +116,17 @@ unitTestJob.with {
     }
     publishers {
         archiveArtifacts("**/*")
-        step( $class: 'CloverPublisher', cloverReportDir: 'build/coverage', cloverReportFileName: 'build/logs/clover.xml')
+        cloverPHP('build/logs/clover.xml') {
+            publishHtmlReport('build/coverage') {
+                disableArchiving()
+            }
+            healthyMethodCoverage(90)
+            healthyStatementCoverage(80)
+            unhealthyMethodCoverage(60)
+            unhealthyStatementCoverage(50)
+            unstableMethodCoverage(50)
+            unstableStatementCoverage(40)
+        }
 //  healthyTarget: [methodCoverage: 70, conditionalCoverage: 70, statementCoverage: 70], // optional, default is: method=70, conditional=80, statement=80
 //  unhealthyTarget: [methodCoverage: 50, conditionalCoverage: 50, statementCoverage: 50], // optional, default is none
 //  failingTarget: [methodCoverage: 0, conditionalCoverage: 0, statementCoverage: 0]     // optional, default is none
