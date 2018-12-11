@@ -159,21 +159,6 @@ codeAnalysisJob.with {
             antInstallation('ADOP Ant')
         }
     }
-    configure { myProject ->
-        myProject / builders << 'hudson.plugins.sonar.SonarRunnerBuilder'(plugin: "sonar@2.2.1") {
-            project('sonar-project.properties')
-            properties('''sonar.projectKey=${PROJECT_NAME_KEY}
-sonar.projectName=${PROJECT_NAME}
-sonar.projectVersion=1.0.${B}
-sonar.sources=src/main/java
-sonar.language=java
-sonar.sourceEncoding=UTF-8
-sonar.scm.enabled=false''')
-            javaOpts()
-            jdk('(Inherit From Job)')
-            task()
-        }
-    }
     publishers {
         downstreamParameterized {
             trigger(projectFolderName + "/Reference_Application_Deploy") {
