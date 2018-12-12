@@ -145,7 +145,7 @@ unitTestJob.with {
 }
 
 codeAnalysisJob.with {
-    description("This job runs code quality analysis for Java reference application using SonarQube.")
+    description("This job runs code quality analysis for PHP reference application not using SonarQube.")
     parameters {
         stringParam("B", '', "Parent build number")
         stringParam("PARENT_BUILD", "Reference_Application_Build", "Parent build name")
