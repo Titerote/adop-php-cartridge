@@ -217,7 +217,7 @@ deployJob.with {
             |docker cp ${WORKSPACE}/build/roofservicenow-web.tgz  ${SERVICE_NAME}:/data/php-deploy/
             |docker exec ${SERVICE_NAME} /usr/local/bin/docker-php-deploy
             |COUNT=1
-            |while ! curl -q http://${SERVICE_NAME}:8080/roofservicenow -o /dev/null
+            |while ! docker exec ${SERVICE_NAME} curl -q http://${SERVICE_NAME}:8080/roofservicenow -o /dev/null
             |do
             |  if [ ${COUNT} -gt 10 ]; then
             |    echo "Docker build failed even after ${COUNT}. Please investigate."
@@ -229,7 +229,7 @@ deployJob.with {
             |done
             |echo "=.=.=.=.=.=.=.=.=.=.=.=."
             |echo "=.=.=.=.=.=.=.=.=.=.=.=."
-            |echo "Environment URL (replace PUBLIC_IP with your public ip address where you access jenkins from) : http://${SERVICE_NAME}.PUBLIC_IP.xip.io/petclinic"
+            |echo "Environment URL (replace PUBLIC_IP with your public ip address where you access jenkins from) : http://${SERVICE_NAME}.PUBLIC_IP.xip.io/roofservicenow"
             |echo "=.=.=.=.=.=.=.=.=.=.=.=."
             |echo "=.=.=.=.=.=.=.=.=.=.=.=."
             |set -x'''.stripMargin()
