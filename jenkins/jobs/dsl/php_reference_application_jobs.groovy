@@ -373,8 +373,12 @@ regressionTestJob.with {
         }
     }
     /** **/
+    definition {
+        cps {
     script {
         node {
+        }
+    }
         }
     }
     publishers {
