@@ -376,9 +376,10 @@ regressionTestJob.with {
     definition {
         cps {
     script '''
-        node {
-        }
-    '''
+        |stage('Example') {
+        |   input "ready or not ?"
+        |}
+'''
         }
     }
     publishers {
