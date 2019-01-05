@@ -16,8 +16,11 @@ def codeAnalysisJob = freeStyleJob(projectFolderName + "/Reference_Application_C
 def deployJob = freeStyleJob(projectFolderName + "/Reference_Application_Deploy")
 def regressionTestJob = freeStyleJob(projectFolderName + "/Reference_Application_Regression_Tests")
 def performanceTestJob = freeStyleJob(projectFolderName + "/Reference_Application_Performance_Tests")
+def releaseJobToNexus = freeStyleJob(projectFolderName + "/Reference_Application_Release_Software")
 def deployJobToProdA = freeStyleJob(projectFolderName + "/Reference_Application_Deploy_ProdA")
 def deployJobToProdB = freeStyleJob(projectFolderName + "/Reference_Application_Deploy_ProdB")
+
+
 
 // Views
 def pipelineView = buildPipelineView(projectFolderName + "/Java_Reference_Application")
@@ -360,9 +363,7 @@ regressionTestJob.with {
     }
     /** **/
     steps {
-        input {
-            message("Ready to go ?")
-        }
+        input "Have the Functional Tests been successful ? if so, Proceed. Else, Abort"
     }
     publishers {
         downstreamParameterized {
@@ -403,6 +404,7 @@ performanceTestJob.with {
         env('JMETER_TESTDIR', 'jmeter-test')
     }
     label("docker")
+    /** **
     steps {
         copyArtifacts("Reference_Application_Build") {
             buildSelector {
@@ -444,6 +446,53 @@ performanceTestJob.with {
             mavenInstallation('ADOP Maven')
         }
     }
+    /** **/
+    steps {
+        input "Have the Stress Tests been successful ? if so, Proceed. Else, Abort"
+    }
+    publishers {
+        publishHtml {
+            report('$WORKSPACE/$JMETER_TESTDIR/src/test/jmeter') {
+                reportName('Jmeter Report')
+                reportFiles('petclinic_test_plan.html')
+            }
+        }
+        buildPipelineTrigger(projectFolderName + "/Reference_Application_Release_Software") {
+            parameters {
+                predefinedProp("B", '${B}')
+                predefinedProp("PARENT_BUILD", '${PARENT_BUILD}')
+            }
+        }
+    }
+    configure { project ->
+        project / publishers << 'io.gatling.jenkins.GatlingPublisher' {
+            enabled true
+        }
+    }
+}
+
+releaseJobToNexus.with {
+    description("This job prepares the software to be versioned and pushes that version to Nexus")
+    parameters {
+        stringParam("B", '', "Parent build number")
+        stringParam("PARENT_BUILD", "Reference_Application_Regression_Tests", "Parent build name")
+        stringParam("ENVIRONMENT_NAME", "CI", "Name of the environment.")
+    }
+    wrappers {
+        preBuildCleanup()
+        injectPasswords()
+        maskPasswords()
+        sshAgent("adop-jenkins-master")
+    }
+    environmentVariables {
+        env('WORKSPACE_NAME', workspaceFolderName)
+        env('PROJECT_NAME', projectFolderName)
+        env('JMETER_TESTDIR', 'jmeter-test')
+    }
+    label("docker")
+    steps {
+        input "This is a phony entry, you should not proceed from here? if so, Proceed. Else, Abort"
+    }
     publishers {
         publishHtml {
             report('$WORKSPACE/$JMETER_TESTDIR/src/test/jmeter') {
@@ -456,11 +505,6 @@ performanceTestJob.with {
                 predefinedProp("B", '${B}')
                 predefinedProp("PARENT_BUILD", '${PARENT_BUILD}')
             }
-        }
-    }
-    configure { project ->
-        project / publishers << 'io.gatling.jenkins.GatlingPublisher' {
-            enabled true
         }
     }
 }
