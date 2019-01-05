@@ -363,10 +363,16 @@ regressionTestJob.with {
     }
     steps {
     }
+    /** **/
+    pipeline {
+        stages {
+            stage("Example") {
             input {
                 message "Have the Functional Tests been successful ? if so, Proceed. Else, Abort"
             }
-    /** **/
+            }
+        }
+    }
     publishers {
         downstreamParameterized {
             trigger(projectFolderName + "/Reference_Application_Performance_Tests") {
