@@ -363,7 +363,9 @@ regressionTestJob.with {
     }
     /** **/
     steps {
-        input "Have the Functional Tests been successful ? if so, Proceed. Else, Abort"
+        input {
+            message "Have the Functional Tests been successful ? if so, Proceed. Else, Abort"
+        }
     }
     publishers {
         downstreamParameterized {
@@ -448,7 +450,9 @@ performanceTestJob.with {
     }
     /** **/
     steps {
-        input "Have the Stress Tests been successful ? if so, Proceed. Else, Abort"
+        input {
+            message "Have the Stress Tests been successful ? if so, Proceed. Else, Abort"
+        }
     }
     publishers {
         publishHtml {
@@ -491,7 +495,9 @@ releaseJobToNexus.with {
     }
     label("docker")
     steps {
-        input "This is a phony entry, you should not proceed from here? if so, Proceed. Else, Abort"
+        input {
+            message "This is a phony entry, you should not proceed from here? if so, Proceed. Else, Abort"
+        }
     }
     publishers {
         publishHtml {
