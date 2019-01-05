@@ -361,11 +361,11 @@ regressionTestJob.with {
             parallelTesting("false")
         }
     }
-    /** **/
     steps {
-        input {
+    }
+    /** **/
+    input {
             message "Have the Functional Tests been successful ? if so, Proceed. Else, Abort"
-        }
     }
     publishers {
         downstreamParameterized {
@@ -448,11 +448,11 @@ performanceTestJob.with {
             mavenInstallation('ADOP Maven')
         }
     }
-    /** **/
     steps {
-        input {
+    }
+    /** **/
+    input {
             message "Have the Stress Tests been successful ? if so, Proceed. Else, Abort"
-        }
     }
     publishers {
         publishHtml {
@@ -494,11 +494,11 @@ releaseJobToNexus.with {
         env('JMETER_TESTDIR', 'jmeter-test')
     }
     label("docker")
-    steps {
         input {
             message "This is a phony entry, you should not proceed from here? if so, Proceed. Else, Abort"
         }
-    }
+//    steps {
+//    }
     publishers {
         publishHtml {
             report('$WORKSPACE/$JMETER_TESTDIR/src/test/jmeter') {
