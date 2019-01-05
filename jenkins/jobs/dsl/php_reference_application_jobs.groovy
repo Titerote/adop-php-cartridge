@@ -364,8 +364,12 @@ regressionTestJob.with {
     steps {
     }
     /** **/
-    input {
-            message "Have the Functional Tests been successful ? if so, Proceed. Else, Abort"
+    stages {
+        stage("Example") {
+            input {
+                message "Have the Functional Tests been successful ? if so, Proceed. Else, Abort"
+            }
+        }
     }
     publishers {
         downstreamParameterized {
@@ -450,10 +454,10 @@ performanceTestJob.with {
     }
     steps {
     }
-    /** **/
     input {
             message "Have the Stress Tests been successful ? if so, Proceed. Else, Abort"
     }
+    /** **/
     publishers {
         publishHtml {
             report('$WORKSPACE/$JMETER_TESTDIR/src/test/jmeter') {
@@ -494,9 +498,9 @@ releaseJobToNexus.with {
         env('JMETER_TESTDIR', 'jmeter-test')
     }
     label("docker")
-        input {
-            message "This is a phony entry, you should not proceed from here? if so, Proceed. Else, Abort"
-        }
+//        input {
+//            message "This is a phony entry, you should not proceed from here? if so, Proceed. Else, Abort"
+//        }
 //    steps {
 //    }
     publishers {
