@@ -375,10 +375,10 @@ regressionTestJob.with {
     /** **/
     definition {
         cps {
-    script {
+    script '''
         node {
         }
-    }
+    '''
         }
     }
     publishers {
