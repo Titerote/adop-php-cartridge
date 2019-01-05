@@ -1,3 +1,5 @@
-stage('Example') {
-  input "ready or not ?"
+node {
+  stage('Example') {
+    input "ready or not ?"
+  }
 }
