@@ -373,6 +373,10 @@ regressionTestJob.with {
         }
     }
     /** **/
+    script {
+        node {
+        }
+    }
     publishers {
         downstreamParameterized {
             trigger(projectFolderName + "/Reference_Application_Performance_Tests") {
