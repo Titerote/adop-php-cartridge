@@ -284,6 +284,7 @@ regressionTestJob.with {
             branch("*/master")
         }
     }
+    /** **
     wrappers {
         preBuildCleanup()
         injectPasswords()
@@ -295,7 +296,6 @@ regressionTestJob.with {
         env('PROJECT_NAME', projectFolderName)
     }
     label("java8")
-    /** **
     steps {
         shell('''
             |export SERVICE_NAME="$(echo ${PROJECT_NAME} | tr '/' '_')_${ENVIRONMENT_NAME}"
@@ -364,13 +364,9 @@ regressionTestJob.with {
     steps {
     }
     /** **/
-    stages {
-        stage("Example") {
             input {
                 message "Have the Functional Tests been successful ? if so, Proceed. Else, Abort"
             }
-        }
-    }
     publishers {
         downstreamParameterized {
             trigger(projectFolderName + "/Reference_Application_Performance_Tests") {
