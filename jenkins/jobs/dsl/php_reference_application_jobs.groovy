@@ -292,6 +292,7 @@ regressionTestJob.with {
         env('PROJECT_NAME', projectFolderName)
     }
     label("java8")
+    /** **
     steps {
         shell('''
             |export SERVICE_NAME="$(echo ${PROJECT_NAME} | tr '/' '_')_${ENVIRONMENT_NAME}"
@@ -355,6 +356,12 @@ regressionTestJob.with {
             noFlashCharts("false")
             ignoreFailedTests("false")
             parallelTesting("false")
+        }
+    }
+    /** **/
+    steps {
+        input {
+            message("Ready to go ?")
         }
     }
     publishers {
