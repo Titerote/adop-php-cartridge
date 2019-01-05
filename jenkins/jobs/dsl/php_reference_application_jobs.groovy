@@ -375,11 +375,7 @@ regressionTestJob.with {
     /** **/
     definition {
         cps {
-    script '''
-        |stage('Example') {
-        |   input "ready or not ?"
-        |}
-'''
+            script(readFileFromWorkspace('jenkins/jobs/dsl/Reference_Application_Regression_Tests.groovy'))
         }
     }
     publishers {
