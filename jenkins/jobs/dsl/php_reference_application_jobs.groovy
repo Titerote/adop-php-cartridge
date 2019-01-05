@@ -14,7 +14,7 @@ def buildAppJob = freeStyleJob(projectFolderName + "/Reference_Application_Build
 def unitTestJob = freeStyleJob(projectFolderName + "/Reference_Application_Unit_Tests")
 def codeAnalysisJob = freeStyleJob(projectFolderName + "/Reference_Application_Code_Analysis")
 def deployJob = freeStyleJob(projectFolderName + "/Reference_Application_Deploy")
-def regressionTestJob = workflowJob(projectFolderName + "/Reference_Application_Regression_Tests")
+def regressionTestJob = pipelineJob(projectFolderName + "/Reference_Application_Regression_Tests")
 def performanceTestJob = freeStyleJob(projectFolderName + "/Reference_Application_Performance_Tests")
 def releaseJobToNexus = freeStyleJob(projectFolderName + "/Reference_Application_Release_Software")
 def deployJobToProdA = freeStyleJob(projectFolderName + "/Reference_Application_Deploy_ProdA")
@@ -363,7 +363,6 @@ regressionTestJob.with {
     }
     steps {
     }
-    /** **/
     pipeline {
         stages {
             stage("Example") {
@@ -373,6 +372,7 @@ regressionTestJob.with {
             }
         }
     }
+    /** **/
     publishers {
         downstreamParameterized {
             trigger(projectFolderName + "/Reference_Application_Performance_Tests") {
