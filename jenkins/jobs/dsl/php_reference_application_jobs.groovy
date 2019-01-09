@@ -375,9 +375,9 @@ regressionTestJob.with {
     /** **/
     definition {
         def theFile = readFileFromWorkspace('cartridge/jenkins/jobs/dsl/Reference_Application_Regression_Tests.groovy')
-        cps {
-            script(theFile)
-        }
+//        cps {
+//            script(theFile)
+//        }
     }
     publishers {
         downstreamParameterized {
