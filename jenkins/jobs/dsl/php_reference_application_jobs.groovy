@@ -372,7 +372,6 @@ regressionTestJob.with {
             }
         }
     }
-    /** **/
     definition {
         cpsScm {
             //def theFile = readFileFromWorkspace('cartridge/jenkins/jobs/dsl/Reference_Application_Regression_Tests.groovy')
@@ -380,6 +379,7 @@ regressionTestJob.with {
             //scriptPath('cartridge/jenkins/jobs/dsl/Reference_Application_Regression_Tests.groovy')
         }
     }
+    /** **/
     publishers {
         downstreamParameterized {
             trigger(projectFolderName + "/Reference_Application_Performance_Tests") {
