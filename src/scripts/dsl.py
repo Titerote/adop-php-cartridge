@@ -10,7 +10,7 @@ from jinja2 import Environment, FileSystemLoader, PackageLoader, select_autoesca
 #print destroy_sh
 
 env = Environment(
-#  loader=PackageLoader(__name__,'/root/adop/tite-php-cartridge/src/templates/dsl'),
+#  loader=PackageLoader(__name__,'/root/adop/tite-php-cartridge/src/dsl/templates'),
   loader=FileSystemLoader('src/templates/dsl'),
   autoescape=select_autoescape(['html','xml'])
 )
