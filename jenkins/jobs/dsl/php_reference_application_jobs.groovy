@@ -374,12 +374,12 @@ regressionTestJob.with {
     }
     /** **/
     definition {
-        /** **
-        def theFile = readFileFromWorkspace('cartridge/src/dsl/Reference_Application_Regression_Tests.groovy')
+        /** **/
+        def theFile = readFileFromWorkspace('cartridge/src/dsl/Reference_Application_Regression_Tests.groovy').text
         cpsScm {
             script(theFile)
         }
-        /** **/
+        /** **
         cpsScm {
             scriptPath('cartridge/src/dsl/Reference_Application_Regression_Tests.groovy')
         }
