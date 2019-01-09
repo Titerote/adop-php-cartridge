@@ -1,4 +1,6 @@
 stage('Example') {
-  sh 'echo test'
+  node {
+    sh 'echo test'
+  }
   input "ready or not ?"
 }
