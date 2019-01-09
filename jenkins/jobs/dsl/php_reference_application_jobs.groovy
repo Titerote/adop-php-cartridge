@@ -377,6 +377,7 @@ regressionTestJob.with {
         /** **/
         cps {
             script(readFileFromWorkspace('cartridge/src/dsl/Reference_Application_Regression_Tests.groovy'))
+            sandbox()
         }
         /** **
         cpsScm {
