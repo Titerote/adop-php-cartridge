@@ -374,10 +374,11 @@ regressionTestJob.with {
     }
     /** **/
     definition {
-        def theFile = readFileFromWorkspace('cartridge/jenkins/jobs/dsl/Reference_Application_Regression_Tests.groovy')
-//        cps {
-//            script(theFile)
-//        }
+        cpsScm {
+            //def theFile = readFileFromWorkspace('cartridge/jenkins/jobs/dsl/Reference_Application_Regression_Tests.groovy')
+            //script(theFile)
+            scriptPath('cartridge/jenkins/jobs/dsl/Reference_Application_Regression_Tests.groovy')
+        }
     }
     publishers {
         downstreamParameterized {
