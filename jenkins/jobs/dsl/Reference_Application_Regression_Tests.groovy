@@ -1,6 +1,4 @@
-'''
-  sh 'echo test'
-  stage('Example') {
-    input "ready or not ?"
-  }
-'''
+sh 'echo test'
+stage('Example') {
+  input "ready or not ?"
+}
