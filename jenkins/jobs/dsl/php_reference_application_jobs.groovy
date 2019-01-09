@@ -375,7 +375,7 @@ regressionTestJob.with {
     /** **/
     definition {
         cps {
-            script(readFileFromWorkspace('jenkins/jobs/dsl/Reference_Application_Regression_Tests.groovy'))
+            script(readFileFromWorkspace('cartridge/jenkins/jobs/dsl/Reference_Application_Regression_Tests.groovy'))
         }
     }
     publishers {
