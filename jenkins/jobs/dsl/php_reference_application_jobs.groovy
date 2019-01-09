@@ -372,14 +372,18 @@ regressionTestJob.with {
             }
         }
     }
-    definition {
-        cpsScm {
-            //def theFile = readFileFromWorkspace('cartridge/jenkins/jobs/dsl/Reference_Application_Regression_Tests.groovy')
-            //script(theFile)
-            //scriptPath('cartridge/jenkins/jobs/dsl/Reference_Application_Regression_Tests.groovy')
-        }
-    }
     /** **/
+    definition {
+        def theFile = readFileFromWorkspace('cartridge/src/dsl/Reference_Application_Regression_Tests.groovy')
+        cpsScm {
+            script(theFile)
+        }
+        /** **
+        cpsScm {
+            scriptPath('cartridge/jenkins/jobs/dsl/Reference_Application_Regression_Tests.groovy')
+        }
+        /** **/
+    }
     publishers {
         downstreamParameterized {
             trigger(projectFolderName + "/Reference_Application_Performance_Tests") {
