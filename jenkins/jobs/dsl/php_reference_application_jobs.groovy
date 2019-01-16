@@ -236,7 +236,7 @@ deployJob.with {
             |docker cp ${WORKSPACE}/build/roofservicenow-web.tgz  ${SERVICE_NAME}:/data/php-deploy/
             |docker exec ${SERVICE_NAME} /usr/local/bin/docker-php-deploy
             |COUNT=1
-            |while ! docker exec ${SERVICE_NAME} curl -q http://${SERVICE_NAME}:8080/roofservicenow -o /dev/null
+            |while ! docker exec ${SERVICE_NAME} curl -q http://${SERVICE_NAME}/roofservicenow -o /dev/null
             |do
             |  if [ ${COUNT} -gt 10 ]; then
             |    echo "Docker build failed even after ${COUNT}. Please investigate."
