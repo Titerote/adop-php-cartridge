@@ -161,6 +161,17 @@ codeAnalysisJob.with {
         stringParam("PARENT_BUILD", "Reference_Application_Build", "Parent build name")
         stringParam("UTB", '', "Unit Tests job build number")
     }
+    scm {
+        git {
+            remote {
+                url(referenceAppGitUrl)
+                credentials("adop-jenkins-master")
+                // refspec('$GERRIT_PATCHSET_REVISION')
+            }
+            branch("*/master")
+            // branch('$GERRIT_REFSPEC')
+        }
+    }
     environmentVariables {
         env('WORKSPACE_NAME', workspaceFolderName)
         env('PROJECT_NAME', projectFolderName)
@@ -174,11 +185,6 @@ codeAnalysisJob.with {
     }
     label("php")
     steps {
-        copyArtifacts("Reference_Application_Build") {
-            buildSelector {
-                buildNumber('${B}')
-            }
-        }
         ant {
             target('static-analysis')
             antInstallation('ADOP Ant')
