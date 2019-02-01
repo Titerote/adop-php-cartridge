@@ -106,12 +106,18 @@ unitTestJob.with {
         env('PROJECT_NAME', projectFolderName)
     }
     label("php")
-    steps {
-        copyArtifacts("Reference_Application_Build") {
-            buildSelector {
-                buildNumber('${B}')
+    scm {
+        git {
+            remote {
+                url(referenceAppGitUrl)
+                credentials("adop-jenkins-master")
+                // refspec('$GERRIT_PATCHSET_REVISION')
             }
+            branch("*/master")
+            // branch('$GERRIT_REFSPEC')
         }
+    }
+    steps {
         ant {
             target('phpunit')
             antInstallation('ADOP Ant')
