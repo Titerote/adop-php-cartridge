@@ -136,7 +136,6 @@ unitTestJob.with {
         ant {
             target('phpunit')
             antInstallation('ADOP Ant')
-            props('php_bin': '/usr/local/bin/php')
         }
     }
     publishers {
