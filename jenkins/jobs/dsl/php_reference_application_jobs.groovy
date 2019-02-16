@@ -91,7 +91,7 @@ buildAppJob.with {
         }
     }
     publishers {
-        archiveArtifacts("**/*")
+//        archiveArtifacts("**/*")
         downstreamParameterized {
             trigger(projectFolderName + "/Reference_Application_Unit_Tests") {
                 condition("UNSTABLE_OR_BETTER")
@@ -139,7 +139,7 @@ unitTestJob.with {
         }
     }
     publishers {
-        archiveArtifacts("**/*")
+//        archiveArtifacts("**/*")
         cloverPHP('build/logs/clover.xml') {
             publishHtmlReport('build/coverage') {
                 disableArchiving()
@@ -202,7 +202,7 @@ codeAnalysisJob.with {
         ant {
             target('static-analysis')
             antInstallation('ADOP Ant')
-            props('php_bin': '/usr/local/bin/php')
+//            props('php_bin': '/usr/local/bin/php')
         }
     }
     publishers {
