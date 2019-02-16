@@ -81,7 +81,7 @@ buildAppJob.with {
           groupId('tst')
           version('1.0-SNAPSHOT')
           repository('local-artifacts')
-          credentials('adop-nexus-jenkins')
+          credentialsId("adop-nexus-jenkins")
           artifact {
             artifactId('roofservicenow-web')
             type('tgz')
