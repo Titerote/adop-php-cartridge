@@ -75,15 +75,15 @@ buildAppJob.with {
             antInstallation('ADOP Ant')
         }
         nexusArtifactUploader {
-          nexusVersion('nexus2')
+          nexusVersion('nexus3')
           protocol('http')
-          nexusUrl('nexus:8081/nexus')
-          groupId('sp.sd')
-          version('2.4')
+          nexusUrl('adop.mgt.tite.lan/nexus')
+          groupId('tst')
+          version('1.0-SNAPSHOT')
           repository('local-artifacts')
-//          credentialsId('44620c50-1589-4617-a677-7563985e46e1')
+          credentials('adop-nexus-jenkins')
           artifact {
-            artifactId('nexus-artifact-uploader')
+            artifactId('roofservicenow-web')
             type('tgz')
             classifier('debug')
             file('build/roofservicenow-web.tgz')
